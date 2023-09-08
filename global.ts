@@ -7,3 +7,8 @@ export interface List<T> {
   append(item: T): void;
   insertAt(item: T, idx: number): void;
 }
+
+export type Point = {
+  x: number;
+  y: number;
+};
