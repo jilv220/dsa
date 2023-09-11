@@ -1,8 +1,8 @@
-import { assertEquals } from "https://deno.land/std@0.201.0/assert/assert_equals.ts";
-import { Point } from "../global.ts";
-import maze_solver from "../maze_solver.ts";
+import { Point } from "../global.js";
+import { describe, expect, test } from "bun:test";
+import maze_solver from "../maze_solver.js";
 
-Deno.test("maze solver", () => {
+test("maze solver", () => {
   const maze = [
     "xxxxxxxxxx x",
     "x        x x",
@@ -32,7 +32,7 @@ Deno.test("maze solver", () => {
 
   // there is only one path through
   const result = maze_solver(maze, "x", { x: 10, y: 0 }, { x: 1, y: 5 });
-  assertEquals(drawPath(maze, result), drawPath(maze, mazeResult));
+  expect(drawPath(maze, result)).toEqual(drawPath(maze, mazeResult));
 });
 
 function drawPath(data: string[], path: Point[]) {

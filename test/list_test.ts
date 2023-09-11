@@ -1,29 +1,29 @@
-import { assertEquals } from "https://deno.land/std@0.201.0/assert/assert_equals.ts";
 import { List } from "../global.ts";
+import { describe, expect, test } from "bun:test";
 
 export function test_list(list: List<number>): void {
   list.append(5);
   list.append(7);
   list.append(9);
 
-  assertEquals(list.get(2), 9);
-  assertEquals(list.removeAt(1), 7);
-  assertEquals(list.length, 2);
+  expect(list.get(2)).toBe(9);
+  expect(list.removeAt(1)).toBe(7);
+  expect(list.length).toBe(2);
 
   list.append(11);
-  assertEquals(list.removeAt(1), 9);
-  assertEquals(list.remove(9), undefined);
-  assertEquals(list.removeAt(0), 5);
-  assertEquals(list.removeAt(0), 11);
-  assertEquals(list.length, 0);
+  expect(list.removeAt(1)).toBe(9);
+  expect(list.remove(9)).toBe(undefined);
+  expect(list.removeAt(0)).toBe(5);
+  expect(list.removeAt(0)).toBe(11);
+  expect(list.length).toBe(0);
 
   list.prepend(5);
   list.prepend(7);
   list.prepend(9);
 
-  assertEquals(list.get(2), 5);
-  assertEquals(list.get(0), 9);
-  assertEquals(list.remove(9), 9);
-  assertEquals(list.length, 2);
-  assertEquals(list.get(0), 7);
+  expect(list.get(2)).toBe(5);
+  expect(list.get(0)).toBe(9);
+  expect(list.remove(9)).toBe(9);
+  expect(list.length).toBe(2);
+  expect(list.get(0)).toBe(7);
 }

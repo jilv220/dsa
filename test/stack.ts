@@ -1,24 +1,24 @@
-import { assertEquals } from "https://deno.land/std@0.201.0/assert/assert_equals.ts";
+import { describe, expect, test } from "bun:test";
 import Stack from "../stack.ts";
 
-Deno.test("stack", () => {
+test("stack", () => {
   const list = new Stack<number>();
 
   list.push(5);
   list.push(7);
   list.push(9);
 
-  assertEquals(list.pop(), 9);
-  assertEquals(list.length, 2);
+  expect(list.pop()).toBe(9);
+  expect(list.length).toBe(2);
 
   list.push(11);
-  assertEquals(list.pop(), 11);
-  assertEquals(list.pop(), 7);
-  assertEquals(list.peek(), 5);
-  assertEquals(list.pop(), 5);
-  assertEquals(list.pop(), undefined);
+  expect(list.pop()).toBe(11);
+  expect(list.pop()).toBe(7);
+  expect(list.peek()).toBe(5);
+  expect(list.pop()).toBe(5);
+  expect(list.pop()).toBe(undefined);
 
   list.push(69);
-  assertEquals(list.peek(), 69);
-  assertEquals(list.length, 1);
+  expect(list.peek()).toBe(69);
+  expect(list.length).toBe(1);
 });
