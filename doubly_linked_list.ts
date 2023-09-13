@@ -49,10 +49,7 @@ export default class DoublyLinkedList<T> {
     };
 
     let curr = this.head;
-    while (curr?.next !== undefined) {
-      if (curr.value === item) {
-        break;
-      }
+    for (let i = 0; i < idx && curr; i++) {
       curr = curr.next;
     }
 

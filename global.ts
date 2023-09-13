@@ -12,3 +12,19 @@ export type Point = {
   x: number;
   y: number;
 };
+
+export type BinaryNode<T> = {
+  value: T;
+  left: BinaryNode<T> | null;
+  right: BinaryNode<T> | null;
+};
+
+export type GeneralNode<T> = {
+  value: T;
+  children: GeneralNode<T>[];
+};
+
+export interface ILRU<K, V> {
+  update(key: K, value: V): void;
+  get(key: K): V | undefined;
+}
