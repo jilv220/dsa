@@ -66,24 +66,11 @@ export default class Trie {
   }
   delete(word: string): void {
     let curr = this.root;
-    let counter = 0;
-    let subTree = curr;
     for (let i = 0; i < word.length; i++) {
-      if (curr.isWord) {
-        subTree = curr;
-      }
       if (curr.children) {
         curr = curr.children[word[i]];
       }
     }
-    for (const child in curr.children) {
-      counter += 1;
-    }
-
-    if (counter !== 0) {
-      curr.isWord = false;
-    } else {
-      subTree.children = undefined;
-    }
+    curr.isWord = false;
   }
 }
