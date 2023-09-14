@@ -1,73 +1,99 @@
 export default class MinHeap {
   public length: number;
-  private arr: number[];
+  private heapArray: number[];
 
   constructor() {
     this.length = 0;
-    this.arr = new Array(this.length);
+    this.heapArray = new Array(this.length);
   }
 
+  // Insert a value into the heap and maintain the min heap property
   insert(value: number): void {
     this.length++;
-    this.arr.push(value);
-    // bubble up
-    let currIdx = this.length - 1;
-    let parentIdx = this.parent(currIdx);
-    while (true) {
-      if (value < this.arr[parentIdx]) {
-        let tmp = this.arr[parentIdx];
-        this.arr[parentIdx] = this.arr[currIdx];
-        this.arr[currIdx] = tmp;
-
-        currIdx = parentIdx;
-        parentIdx = this.parent(parentIdx);
-      } else {
-        break;
-      }
-    }
+    this.heapArray.push(value);
+    this.bubbleUp(this.length - 1);
   }
+
+  // Delete the minimum value from the heap and maintain the min heap property
   delete(): number | undefined {
-    // swap bottom with root
+    if (this.length === 0) {
+      return undefined;
+    }
+
+    // Swap the root with the last element in the heap
     this.swap(0, this.length - 1);
-    const toDelete = this.arr.pop();
+    const minValue = this.heapArray.pop();
     this.length = Math.max(0, this.length - 1);
 
-    // bubble down
-    let currIdx = 0;
-    let childIdx = undefined;
+    // Bubble down the root element to restore the min heap property
+    this.bubbleDown(0);
 
-    while (currIdx !== this.length - 1) {
-      const leftChildIdx = this.leftChild(currIdx);
-      const rightChildIdx = this.rightChild(currIdx);
-      if (this.arr[leftChildIdx] === undefined) {
-        childIdx = rightChildIdx;
-      } else if (this.arr[rightChildIdx] === undefined) {
-        childIdx = leftChildIdx;
-      } else if (this.arr[leftChildIdx] < this.arr[rightChildIdx]) {
-        childIdx = leftChildIdx;
-      } else {
-        childIdx = rightChildIdx;
-      }
-      if (childIdx > this.length) {
-        break;
-      }
-      this.swap(currIdx, childIdx);
-      currIdx = childIdx;
+    return minValue;
+  }
+
+  // Move the element at the given index up in the heap until it's in the correct position
+  private bubbleUp(index: number): void {
+    let currentIndex = index;
+    let parentIndex = this.parent(currentIndex);
+
+    while (
+      currentIndex > 0 &&
+      this.heapArray[currentIndex] < this.heapArray[parentIndex]
+    ) {
+      this.swap(currentIndex, parentIndex);
+      currentIndex = parentIndex;
+      parentIndex = this.parent(currentIndex);
     }
-    return toDelete;
   }
-  private parent(idx: number): number {
-    return Math.floor((idx - 1) / 2);
+
+  // Move the element at the root down in the heap until it's in the correct position
+  private bubbleDown(index: number): void {
+    let currentIndex = index;
+    let smallestChildIndex = this.findSmallestChildIndex(currentIndex);
+
+    while (
+      smallestChildIndex < this.length &&
+      this.heapArray[currentIndex] > this.heapArray[smallestChildIndex]
+    ) {
+      this.swap(currentIndex, smallestChildIndex);
+      currentIndex = smallestChildIndex;
+      smallestChildIndex = this.findSmallestChildIndex(currentIndex);
+    }
   }
-  private leftChild(idx: number): number {
-    return 2 * idx + 1;
+
+  // Find the parent index of the given index
+  private parent(index: number): number {
+    return Math.floor((index - 1) / 2);
   }
-  private rightChild(idx: number): number {
-    return 2 * idx + 2;
+
+  // Find the left child index of the given index
+  private leftChild(index: number): number {
+    return 2 * index + 1;
   }
-  private swap(aIdx: number, bIdx: number) {
-    let tmp = this.arr[bIdx];
-    this.arr[bIdx] = this.arr[aIdx];
-    this.arr[aIdx] = tmp;
+
+  // Find the right child index of the given index
+  private rightChild(index: number): number {
+    return 2 * index + 2;
+  }
+
+  // Find the index of the smallest child of the given index
+  private findSmallestChildIndex(index: number): number {
+    const leftChildIndex = this.leftChild(index);
+    const rightChildIndex = this.rightChild(index);
+
+    if (rightChildIndex >= this.length) {
+      return leftChildIndex;
+    }
+
+    return this.heapArray[leftChildIndex] < this.heapArray[rightChildIndex]
+      ? leftChildIndex
+      : rightChildIndex;
+  }
+
+  // Swap two elements in the heapArray
+  private swap(aIndex: number, bIndex: number): void {
+    const temp = this.heapArray[bIndex];
+    this.heapArray[bIndex] = this.heapArray[aIndex];
+    this.heapArray[aIndex] = temp;
   }
 }
