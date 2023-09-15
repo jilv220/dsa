@@ -28,3 +28,7 @@ export interface ILRU<K, V> {
   update(key: K, value: V): void;
   get(key: K): V | undefined;
 }
+
+export type WeightedAdjacencyMatrix = number[][];
+export type GraphEdge = { to: number; weight: number };
+export type WeightedAdjacencyList = GraphEdge[][];
